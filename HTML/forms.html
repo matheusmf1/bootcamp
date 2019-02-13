@@ -9,17 +9,44 @@
 
 	<h1>Login</h1>
 
- <!-- in a form there are two attributes important: -->
+	<!-- in a form there are two attributes important: -->
 
- <!-- action -- where the form sends the data to  -->
- <!-- method --  what HTTP method (get/post) -->
+	<!-- action -- where the form sends the data to  -->
+	<!-- method --  what HTTP method (get/post) -->
 
-	<form>
-		<input type="text" placeholder="username">
-		<input type="password" placeholder="password">
+	<!-- this way takes you to the wikipedia and sends the data  -->
+
+	<!-- labels are for blind people know what they are doing -->
+	<!-- 
+
+	1 way to to label, put every tag inside of it
+
+	<form action="http://www.wikipedia.org" method="GET">
+		<label>
+			Username:
+			<input name="username" type="text" placeholder="username">
+		</label>
+		<label> 
+			Password:
+			<input name="password" type="password" placeholder="password">
+		</label>
+		
 		<input type="Submit">
-		<!-- <button>Submit</button> -->
+		<button>Submit</button>
+	</form> -->
+
+	<!-- 2 way to do labels, use for and id -->
+	
+	<form action="http://www.wikipedia.org" method="GET">
+		<label for="username">Username:</label>
+		<input id="username" name="username" type="text" placeholder="username">
+
+		<label for="password">Password:</label>
+		<input id="password" name="password" type="password" placeholder="password">
+
+		<input type="Submit">
 	</form>
+
 
 </body>
 
