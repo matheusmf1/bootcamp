@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+</head>
+
+<body>
+
+    <h1>Register</h1>
+    <form>
+        <label for="firstName">First Name:</label>
+        <input id="firstName" name="fname" type="text" placeholder="name" required>
+
+        <label for="lastName">Last Name:</label>
+        <input id="lastName" name="lname" type="text" placeholder="last name" required>
+
+        <div>
+            <label for="male">Male:</label>
+            <input name="genderchoise" id="male" type="radio" value="male">
+
+            <label for="female">Female</label>
+            <input name="genderchoise" id="female" type="radio" value="female">
+
+            <label for="other">Other</label>
+            <input name="genderchoise" id="other" type="radio" value="other">
+        </div>
+
+        <div>
+            <label for="useremail">Email:</label>
+            <input id="useremail" name="useremail" type="email" placeholder="email" required>
+
+            <label for="password">Password:</label>
+            <input id="password" name="password" type="password" placeholder="password" 
+            pattern=".{5,10}" required title="Password must be between 5 to 10 characters">
+        </div>
+
+        <div>
+            <label for="date">Birthday</label>
+            <select name="date">
+                <option value="year">month</option>
+                <option value="month">Janeiro</option>
+                <option value="month">Fevereiro</option>
+                <option value="month">Março</option>
+                <option value="month">Novembro</option>
+                <option value="month">Dezembro</option>
+            </select>
+
+            <select name="date">
+                <option value="year">day</option>
+                <option value="day">1</option>
+                <option value="day">2</option>
+                <option value="day">10</option>
+                <option value="day">11</option>
+                <option value="day">23</option>
+                <option value="day">30</option>
+            </select>
+
+            <select name="date">
+                <option value="year">year</option>
+                <option value="year">1996</option>
+                <option value="year">1997</option>
+                <option value="year">1998</option>
+                <option value="year">1999</option>
+                <option value="year">2000</option>
+                <option value="year">2001</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="agree">I agree to the terms and conditions</label>
+            <input id="agree" name="agree" type="checkbox" required>
+        </div>
+
+        <button>Submit</button>
+    </form>
+
+</body>
+
+</html>
