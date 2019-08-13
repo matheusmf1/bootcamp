@@ -1,3 +1,16 @@
+// function declaration
+function capitalize( str ){
+  if( typeof(str) === "number" )
+    return;
+  return str.charAt(0).toUpperCase() + str.slice(1);  
+}
+// function expression
+var cap = function ( str ){
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+cap("matheus");
+
 function isEven(num){
   if ( num%2 === 0 )
     return true;
@@ -13,6 +26,7 @@ function factorial(num){
 }
 
 function kebabToSnake( str ){
+  // replace '-'to '_'
   var newStr = str.replace(/-/g,"_");
   return newStr;
 }
