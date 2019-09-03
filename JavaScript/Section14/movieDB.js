@@ -1,23 +1,23 @@
 var movies = [
   {
-    "title":"Star Wars - The Force Awakens",
-    "rating":8.0,
-    "hasWatched":true
+    title:"Star Wars - The Force Awakens",
+    rating:8.0,
+    hasWatched:true
   },
   {
-    "title":"Star Wars - The Last Jedi",
-    "rating":7.5,
-    "hasWatched":true
+    title:"Star Wars - The Last Jedi",
+    rating:7.5,
+   hasWatched:true
   },
   {
-    "title":"Frozen",
-    "rating":8.0,
-    "hasWatched":true
+    title:"Frozen",
+    rating:8.0,
+    hasWatched:true
   },
   {
-    "title":"Spider-Man: Into the Spider-Verse",
-    "rating":8.0,
-    "hasWatched":false
+    title:"Spider-Man: Into the Spider-Verse",
+    rating:8.0,
+    hasWatched:false
   }
 ];
 
