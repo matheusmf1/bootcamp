@@ -1,8 +1,20 @@
-function echo(str,num){
-  for(var i = 0; i <= num; i++){
-    console.log(str);
-  }
-}
+const echo = ((msg,n) =>{
+  for( var i = 1; i <= n; i++ )
+    console.log(msg);
+});
 
-echo("Echo!!!",10)
-echo("Test",3)
+
+echo("Hi there",5);
+
+
+var avarege = ((arr) =>{
+  sum = 0;
+  arr.forEach( (score) =>{
+      sum+=score;
+  });
+  return Math.round(sum/arr.length);
+});
+
+
+const scores = [90,98,89,100,100,86,94];
+console.log(avarege(scores));
