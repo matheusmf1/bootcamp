@@ -4,24 +4,24 @@ const app = express()
 // Routes
 // "/" => "hi there"
 app.get("/", function(req, res){
-  res.send("Hi there!"); 
+  res.send("Hi there!");
 });
 
-// "/bye" => "Goodbye"
-app.get("/bye",function(req, res){
-  res.send("Goodbye");
-});
 
 // "product" => "Macbook Pro"
-app.get("/product",function(req, res){
-  res.send("MacbookPro");
+app.get("/product", function(req,res){
+	res.send("Macbook Pro");
 });
 
+
+app.get("*", function(req,res){
+  res.send("You're a Star"); 
+});
 
 // Listen for requests (start server)
 // This way works on my container at goorm.io
 // app.listen(process.env.PORT, process.env.IP, function(){
-//   console.log("Server has Started")
+//   console.log("Server has Started");
 // } );
 
 // This way on computer
