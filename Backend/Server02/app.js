@@ -10,11 +10,11 @@ app.get('/', (req, res, next ) =>{
   res.send("Main Page");
 });
 
-app.get('/:operacao', (req, res, next ) =>{
+app.get('/operacao', (req, res, next ) =>{
   res.send("Operations Page");
 });
 
-app.post('/:operacao/dados',( req, res, next ) => {
+app.post('/operacao/dados',( req, res, next ) => {
   received = req.body;
   res.json(req.body);
 
