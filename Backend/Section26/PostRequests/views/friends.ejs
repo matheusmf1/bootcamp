@@ -1,0 +1,12 @@
+<h1>Friends List</h1>
+
+<% friends.forEach( ( f ) =>{ %>
+  <li><%= f %></li>
+<% }); %>
+
+<!-- action: route of the post method  -->
+<form action="addfriend" method="POST" >
+  <!-- name is going to hold the value passed in the form and send it to the body -->
+  <input type="text" name = "newname" placeholder="name">
+  <button>I made a new friend</button>
+</form>
