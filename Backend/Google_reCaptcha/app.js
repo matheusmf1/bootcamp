@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 
-const secretKey = '6LfQhsEUAAAAAADDJGIwylPYzhqMBawwvO0y50ht';
+const secretKey = 'ServerKey';
 
 const app = express();
 
