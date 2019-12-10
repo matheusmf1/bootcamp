@@ -26,13 +26,13 @@ const UserSchema = new mongoose.Schema( {
 
 //Encriptar senha -- o this faz referencia ao objeto UserSchema
 
-UserSchema.pre('save', async ( next ) => {
+UserSchema.pre('save', async function( next )  {
   const hash = await bcrypt.hash( this.password, 10 );
   this.password = hash;
 
   next();
-})
+});
 
-const User = mongoose.model('UserSchema');
+const User = mongoose.model('User', UserSchema);
 
-module.exports = User;
+module.exports = User; 
