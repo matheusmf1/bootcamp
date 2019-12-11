@@ -7,6 +7,7 @@ app.use( bodyParser.json() );
 app.use( bodyParser.urlencoded( { extended: false } ) );
 
 require( './controllers/authController' )(app);
+require( './controllers/projectController' )(app);
 //repassa para o controler o app
 
 app.listen( 4000 );
