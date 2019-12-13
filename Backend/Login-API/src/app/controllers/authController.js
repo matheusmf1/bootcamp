@@ -6,7 +6,6 @@ const mailer = require('../../modules/mailer');
 
 const authConfig = require('../../config/auth.json');
 
-
 const User = require('../models/user');
 
 const router = express.Router();
@@ -30,8 +29,6 @@ router.post('/register', async ( req, res ) => {
     return res.send( { user, token: generateToken( { id: user.id } ) } );
 
   } catch( err ) {
-
-    console.log('Erro aqui ', err );
     return res.status(400).send( { error: 'Registration Failed' } );
   }
 
@@ -129,8 +126,6 @@ router.post('/reset_password', async ( req, res ) => {
   } catch (error) {
     res.status(400).send( { error: 'Cannot reset password, try it again' } )
   }
-
-
 });
 
 
