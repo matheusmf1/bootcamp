@@ -48,7 +48,7 @@ router.post('/authenticate', async ( req, res ) => {
     return res.status(400).send( { error: 'Invalid Password' } );
 
   user.password = undefined;
-
+  
   res.status(200).send( { user, token: generateToken( { id: user.id } ) } );
 });
 

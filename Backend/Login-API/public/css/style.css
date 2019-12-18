@@ -29,17 +29,28 @@ a:hover {
   box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
 }
 
+.form__content {
+  position: relative;
+  margin-bottom: 40px;
+}
+
 .tab-group {
   list-style: none;
-  padding: 0;
-  margin: 0 0 40px 0;
+  padding: 5px;
+  margin: 15px 5px;
 }
 .tab-group:after {
   content: "";
   display: table;
   clear: both;
 }
-.tab-group li a {
+
+.tab-group .active a {
+  background: #1ab188;
+  color: #ffffff;
+}
+
+.tab__content {
   display: block;
   text-decoration: none;
   padding: 15px;
@@ -52,14 +63,11 @@ a:hover {
   cursor: pointer;
   transition: .5s ease;
 }
-.tab-group li a:hover {
+.tab__content :hover {
   background: #179b77;
   color: #ffffff;
 }
-.tab-group .active a {
-  background: #1ab188;
-  color: #ffffff;
-}
+
 
 .tab-content > div:last-child {
   display: none;
@@ -72,33 +80,35 @@ h1 {
   margin: 0 0 40px;
 }
 
-label {
+.form__content--label {
   position: absolute;
   -webkit-transform: translateY(6px);
           transform: translateY(6px);
-  left: 13px;
+  margin-left: 13px;
   color: rgba(255, 255, 255, 0.5);
   transition: all 0.25s ease;
   -webkit-backface-visibility: hidden;
   pointer-events: none;
-  font-size: 22px;
+  font-size: 1.2em;
 }
-label .req {
+
+
+.form__content--label .req {
   margin: 2px;
   color: #1ab188;
 }
 
-label.active {
+.form__content--label.active {
   -webkit-transform: translateY(50px);
           transform: translateY(50px);
   left: 2px;
   font-size: 14px;
 }
-label.active .req {
+.form__content--label.active .req {
   opacity: 0;
 }
 
-label.highlight {
+.form__content--label.highlight {
   color: #ffffff;
 }
 
@@ -125,10 +135,7 @@ textarea {
   resize: vertical;
 }
 
-.field-wrap {
-  position: relative;
-  margin-bottom: 40px;
-}
+
 
 .top-row:after {
   content: "";
@@ -147,10 +154,10 @@ textarea {
 .button {
   border: 0;
   outline: none;
-  border-radius: 0;
+  border-radius: 15px;
   padding: 15px 0;
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 1.2em;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: .1em;
   background: #1ab188;
