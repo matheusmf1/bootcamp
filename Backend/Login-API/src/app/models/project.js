@@ -1,11 +1,11 @@
 const mongoose = require('../../db');
-const bcrypt = require('bcryptjs');
 
 const ProjectSchema = new mongoose.Schema( {
 
   title: {
     type: String,
-    require: true
+    require: true,
+    unique: true
   },
   description: {
     type: String,

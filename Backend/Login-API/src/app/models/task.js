@@ -1,9 +1,13 @@
 const mongoose = require('../../db');
-const bcrypt = require('bcryptjs');
 
 const TaskSchema = new mongoose.Schema( {
 
   title: {
+    type: String,
+    require: true,
+    unique: true
+  },
+  info: {
     type: String,
     require: true
   },

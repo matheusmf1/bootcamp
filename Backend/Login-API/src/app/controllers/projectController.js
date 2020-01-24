@@ -68,6 +68,28 @@ router.post( '/', async ( req, res ) => {
   }
 });
 
+router.post( '/task', async ( req, res ) => {
+  try {
+    const { title, info, projectTitle } = req.body;
+    // o userId será preenchido pelo middleware de autenticação
+
+
+    if ( await Task.findOne( { title } ) )
+      return res.status(400).send( { error: 'Task Already Exists' } );
+
+    const task = await Task.create( { title, info, projectTitle, user: req.userId } );
+
+    project = await Project.findById( req.params.projectTitle ).populate( ['user', 'tasks'] );
+    project.tasks.push( projectTask );
+
+    res.status(200).json( { task } );
+
+  } catch (error) {
+    console.log( error );
+    res.status(400).send( { error: 'Error creating new Task' } )
+  }
+});
+
 router.put( '/:projectId', async ( req, res ) => {
   try {
 
