@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/auth');
 
 const Project = require('../models/project');
 const Task = require('../models/task');
+const User = require('../models/user');
 
 const router = express.Router();
 
@@ -42,27 +43,24 @@ router.get( '/:projectId', async ( req, res ) => {
 router.post( '/', async ( req, res ) => {
   try {
 
-    const { title, description, tasks } = req.body;
+    const { title, description } = req.body;
+  
+    const project = await new Project( { title, description } );
+    const userProj = await User.findById( req.userId ).select('+password');
+   
+    checkProj = userProj.projects.forEach( async e => {  
+     let check = await Project.findById( e );
+    
+     if ( check.title === title )
+      return res.status(400).send( { error: 'Project already in this User'} );
+    });
 
-    const project = await Project.create( { title, description, user: req.userId } );
-    // o userId será preenchido pelo middleware de autenticação
-
-    await Promise.all( tasks.map( async task => {
-      const projectTask = new Task( { ...task, project: project._id } ); //new Task cria mas não salva no momento, task.create cria e já salva
-
-      // Como save é um método assincrono há duas formas de fazer
-
-      // Usando callback da promise, porém como o map não espera terminar as tarefas, project save será executado.
-     // projectTask.save().then( task => project.tasks.push( task ) ); 
-
-      await projectTask.save();
-      project.tasks.push( projectTask );
-    }));
-
+    userProj.projects.push( project );
+    
     await project.save();
+    await userProj.save();
 
-    res.send( { project } );
-
+    res.status(200).send( { project } );
   } catch (error) {
     res.status(400).send( { error: 'Error creating new project' } )
   }
@@ -71,18 +69,28 @@ router.post( '/', async ( req, res ) => {
 router.post( '/task', async ( req, res ) => {
   try {
     const { title, info, projectTitle } = req.body;
-    // o userId será preenchido pelo middleware de autenticação
+  
+    const project = await Project.find( { title: projectTitle } );
+
+    if ( !project ) 
+      return res.status(404).send( { error: 'Project Does not Exists' } );
 
 
     if ( await Task.findOne( { title } ) )
       return res.status(400).send( { error: 'Task Already Exists' } );
 
-    const task = await Task.create( { title, info, projectTitle, user: req.userId } );
+    const task = new Task( { title, info, project: project._id } );
 
-    project = await Project.findById( req.params.projectTitle ).populate( ['user', 'tasks'] );
-    project.tasks.push( projectTask );
+    const test = await Project.find( { tasks: task } )
+  
+    if ( !test )
+      return res.status(400).send( { error: 'Task Already Exists' } );
 
-    res.status(200).json( { task } );
+    await task.save();
+    project[0].tasks.push( task );
+    await project[0].save();
+
+    return res.status(200).json( { task } );
 
   } catch (error) {
     console.log( error );
