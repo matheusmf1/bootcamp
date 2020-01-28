@@ -4,8 +4,7 @@ const TaskSchema = new mongoose.Schema( {
 
   title: {
     type: String,
-    require: true,
-    unique: true
+    require: true
   },
   info: {
     type: String,

@@ -132,4 +132,31 @@ router.post('/reset_password', async ( req, res ) => {
 });
 
 
+router.get('/user', async ( req, res ) => {
+  try{
+    const users = await User.find().populate( ['projects'] );
+    return res.status(200).send( { users } );
+
+  } catch( err ) {
+    console.log( err );
+    return res.status(400).send( { error: 'Error on  finding users' } );
+  }
+});
+
+router.get('/user/:email', async ( req, res ) => {
+  try {
+    const user = await User.find( { email: req.params.email } ).populate( ['projects'] );
+
+    if ( !user )
+      return res.status(404).send( { error: 'User not found' } );
+
+      const token = generateToken( { id: user.id } );
+      res.header('auth-token', token).send( { user, token } );
+  } catch( err ) {
+    console.log( err );
+    res.status(400).send( { error: 'Error on loading user' } )
+  }
+
+});
+
 module.exports = ( app ) => app.use( '/auth', router );

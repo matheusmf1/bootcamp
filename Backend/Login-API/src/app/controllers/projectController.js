@@ -24,12 +24,11 @@ router.get( '/', async ( req, res ) => {
   }
 });
 
-router.get( '/:projectId', async ( req, res ) => {
+router.get( '/:project', async ( req, res ) => {
   try {
 
-    const project = await Project.findById( req.params.projectId ).populate( ['user', 'tasks'] );
-    // esse populate se chama igger loading, ou seja, o mongo procura pelos projetos e pelos usuarios de forma paralela
-
+    const project = await Project.findOne( { title: req.params.project }).populate( ['tasks'] );
+   
     if( !project )
       return res.status(404).send( { error: 'Project not found' } );
 
@@ -46,14 +45,18 @@ router.post( '/', async ( req, res ) => {
     const { title, description } = req.body;
   
     const project = await new Project( { title, description } );
-    const userProj = await User.findById( req.userId ).select('+password');
-   
-    checkProj = userProj.projects.forEach( async e => {  
-     let check = await Project.findById( e );
-    
-     if ( check.title === title )
-      return res.status(400).send( { error: 'Project already in this User'} );
-    });
+    const userProj = await User.findOne( { id: req.userId } ).select('+password');
+
+    if ( userProj.projects.length !== 0 ) {
+
+      checkProj = userProj.projects.forEach( async ( e ) => {  
+        let check = await Project.findById( e );
+       
+        if ( check.title === title )
+         return res.status(400).send( { error: 'Project already in this User'} );
+       });
+
+    }
 
     userProj.projects.push( project );
     
@@ -62,39 +65,8 @@ router.post( '/', async ( req, res ) => {
 
     res.status(200).send( { project } );
   } catch (error) {
+    console.log(error);
     res.status(400).send( { error: 'Error creating new project' } )
-  }
-});
-
-router.post( '/task', async ( req, res ) => {
-  try {
-    const { title, info, projectTitle } = req.body;
-  
-    const project = await Project.find( { title: projectTitle } );
-
-    if ( !project ) 
-      return res.status(404).send( { error: 'Project Does not Exists' } );
-
-
-    if ( await Task.findOne( { title } ) )
-      return res.status(400).send( { error: 'Task Already Exists' } );
-
-    const task = new Task( { title, info, project: project._id } );
-
-    const test = await Project.find( { tasks: task } )
-  
-    if ( !test )
-      return res.status(400).send( { error: 'Task Already Exists' } );
-
-    await task.save();
-    project[0].tasks.push( task );
-    await project[0].save();
-
-    return res.status(200).json( { task } );
-
-  } catch (error) {
-    console.log( error );
-    res.status(400).send( { error: 'Error creating new Task' } )
   }
 });
 
@@ -128,13 +100,31 @@ router.put( '/:projectId', async ( req, res ) => {
   }
 });
 
-router.delete( '/:projectId', async ( req, res ) => {
+router.delete( '/:project', async ( req, res ) => {
   try {
 
-    const project = await Project.findByIdAndDelete( req.params.projectId ).populate('user');
-    // esse populate se chama igger loading, ou seja, o mongo procura pelos projetos e pelos usuarios de forma paralela
+    const project = await Project.findOne( { title: req.params.project } ).populate( ['tasks'] );
 
-    return res.send( { ok: true } );
+    if ( !project )
+      return res.status(404).send( { error: 'Project not found'} );
+
+    const user = await User.findOne( { id: req.userId } ).select('+password');
+
+    const userProj = user.projects.forEach( async ( proj, index, obj ) => {
+     
+      if ( proj.toString === project._id.toString ) {
+        obj.splice( index, 1 );
+        await user.save();
+      }
+    });
+
+    const tasks = project.tasks.forEach( async ( t ) => {
+      await Task.findOneAndDelete( { title: t.title } );
+    });
+
+    await Project.findOneAndDelete( { title: req.params.project } );
+    
+    return res.status(200).send( { ok: true } );
     
   } catch (error) {
     res.status(400).send( { error: 'Error on deleting project' } );
