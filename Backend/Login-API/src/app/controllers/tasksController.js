@@ -44,23 +44,22 @@ router.post( '/', async ( req, res ) => {
   try {
     const { title, info, projectTitle } = req.body;
   
-    const project = await Project.findOne( { title: projectTitle } );
-    const task = await new Task( { title, info, project: project._id, assignedTo: req.userId } );
+    const project = await Project.findOne( { title: projectTitle } ).where( { assignedTo: req.userId } );
 
-    if ( !project ) 
+    console.log('Project: ', project);
+    
+    if (!project ) 
       return res.status(404).send( { error: 'Project Does not Exists' } );
+
+    const task = await new Task( { title, info, project: project._id } );
+    console.log('Task: ', task);
+
+    const checkTask = await Task.findOne( { title: title } ).where( { project: project._id } );
+    console.log( 'checkTask: ', checkTask );
+
+    if ( checkTask )
+      return res.status(400).send( { error: 'Task already in this User'} );
   
-    if ( project.tasks.length !== 0 ) {
-      
-      checkTask = project.tasks.forEach( async ( e ) => {
-        let check = await Task.findById( e );
-        console.log( 'e: ', check );
-
-        if ( check.title === title )
-          return res.status(400).send( { error: 'Task already in this User'} ); 
-      }); 
-    }
-
     project.tasks.push( task );
 
     await task.save();
@@ -69,6 +68,7 @@ router.post( '/', async ( req, res ) => {
     return res.status(200).json( { task } );
 
   } catch ( error ) {
+    console.log( error );
     res.status(400).send( { error: 'Error creating new Task' } );
   }
 });

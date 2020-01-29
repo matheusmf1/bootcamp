@@ -44,15 +44,12 @@ router.post( '/', async ( req, res ) => {
 
     const { title, description } = req.body;
 
-    console.log('test: ', req.userId );
-  
     const userProj = await User.findById( req.userId ).select('+password').select('projects');
     console.log('UserProj: ', userProj);
 
     const project = await new Project( { title, description, assignedTo: userProj._id });
    
     const check = await Project.findOne( { title: title } ).where( { assignedTo: userProj._id } );
-
   
     console.log('project: ', project);
     console.log('check: ', check);
