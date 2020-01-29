@@ -51,11 +51,11 @@ router.post('/authenticate', async ( req, res ) => {
   
   
   const token = generateToken( { id: user.id } );
-  res.header('auth-token', token).send(token);
+  res.header('auth-token', token).send({ token });
   // res.status(200).send( { user, token: generateToken( { id: user.id } ) } );
 });
 
-
+ 
 router.post('/forgot_password', async ( req, res ) => {
   const { email } = req.body;
 
@@ -145,7 +145,7 @@ router.get('/user', async ( req, res ) => {
 
 router.get('/user/:email', async ( req, res ) => {
   try {
-    const user = await User.find( { email: req.params.email } ).populate( ['projects'] );
+    const user = await User.find( { email: req.params.email } ).populate( ['projects, tasks'] );
 
     if ( !user )
       return res.status(404).send( { error: 'User not found' } );

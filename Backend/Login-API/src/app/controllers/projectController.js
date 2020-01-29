@@ -43,20 +43,22 @@ router.post( '/', async ( req, res ) => {
   try {
 
     const { title, description } = req.body;
+
+    console.log('test: ', req.userId );
   
-    const project = await new Project( { title, description } );
-    const userProj = await User.findOne( { id: req.userId } ).select('+password');
+    const userProj = await User.findById( req.userId ).select('+password').select('projects');
+    console.log('UserProj: ', userProj);
 
-    if ( userProj.projects.length !== 0 ) {
+    const project = await new Project( { title, description, assignedTo: userProj._id });
+   
+    const check = await Project.findOne( { title: title } ).where( { assignedTo: userProj._id } );
 
-      checkProj = userProj.projects.forEach( async ( e ) => {  
-        let check = await Project.findById( e );
-       
-        if ( check.title === title )
-         return res.status(400).send( { error: 'Project already in this User'} );
-       });
-
-    }
+  
+    console.log('project: ', project);
+    console.log('check: ', check);
+   
+    if ( check )
+      return res.status(400).send( { error: 'Project Already in this User' } );
 
     userProj.projects.push( project );
     
@@ -64,8 +66,8 @@ router.post( '/', async ( req, res ) => {
     await userProj.save();
 
     res.status(200).send( { project } );
-  } catch (error) {
-    console.log(error);
+  } catch ( error ) {
+    console.log('erro: ', error);
     res.status(400).send( { error: 'Error creating new project' } )
   }
 });

@@ -4,8 +4,7 @@ const ProjectSchema = new mongoose.Schema( {
 
   title: {
     type: String,
-    require: true,
-    unique: true
+    require: true
   },
   description: {
     type: String,
@@ -15,6 +14,11 @@ const ProjectSchema = new mongoose.Schema( {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Task'
   }],
+  assignedTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    require: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
